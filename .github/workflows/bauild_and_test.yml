@@ -43,8 +43,8 @@ jobs:
 
       - name: Configure cmake
         run: |
-          cmake -DCMAKE_BUILD_TYPE=Release -DUKV_BUILD_TESTS=1 -B ./build_release \
-          -DUKV_BUILD_ENGINE_UMEM=1 -DUKV_BUILD_ENGINE_LEVELDB=1 -DUKV_BUILD_ENGINE_ROCKSDB=1 -DUKV_BUILD_API_FLIGHT=0 .
+          cmake -DCMAKE_BUILD_TYPE=Release -DUKV_BUILD_TESTS=1 \
+          -DUKV_BUILD_ENGINE_UMEM=1 -DUKV_BUILD_ENGINE_LEVELDB=1 -DUKV_BUILD_ENGINE_ROCKSDB=1 -DUKV_BUILD_API_FLIGHT=0 -B ./build_release
 
       - name: Build
         run: |
