@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout
@@ -49,12 +49,8 @@ jobs:
                 -DUKV_BUILD_ENGINE_LEVELDB=1 \
                 -DUKV_BUILD_ENGINE_ROCKSDB=1 \
                 -DUKV_BUILD_API_FLIGHT=0 \
-                -B ./build_release
-
-      - name: Build
-        run: |
-          make -j 32 -C ./build_release && \
-          echo -e "------ \e[92mBuild Passing\e[0m ------"
+                -B ./build_release && \
+                make -j 32 -C ./build_release
 
       - name: Upload Binaries
         uses: actions/upload-artifact@v3.1.1
@@ -63,7 +59,7 @@ jobs:
           path: ./build_release/build/bin/*
 
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     needs: build
 
     steps:
