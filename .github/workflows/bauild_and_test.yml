@@ -74,7 +74,7 @@ jobs:
           name: ubuntu_binaries
       
       - name: Run Tests
-        run: for test in $(ls ./build_release/build/bin/*test_units*); do
+        run: for test in $(ls /home/runner/work/ukv/ukv/*test_units*); do
                 echo -e "------ \e[93mRunning $test\e[0m ------"
                 $test
              done
