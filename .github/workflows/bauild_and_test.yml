@@ -33,13 +33,9 @@ jobs:
           rm -rf CMakeCache.txt CMakeFiles wheelhouse Makefile bin tmp/*
 
       - name: Configure cmake
-        run: cmake -DCMAKE_BUILD_TYPE=Release \
-                   -DUKV_BUILD_TESTS=1 \
-                   -DUKV_BUILD_ENGINE_UMEM=1 \
-                   -DUKV_BUILD_ENGINE_LEVELDB=1 \
-                   -DUKV_BUILD_ENGINE_ROCKSDB=1 \
-                   -DUKV_BUILD_API_FLIGHT=0 \
-                   -B ./build_release
+        run: cmake -DCMAKE_BUILD_TYPE=Release -DUKV_BUILD_TESTS=1 -B ./build_release \
+              -DUKV_BUILD_ENGINE_UMEM=1 -DUKV_BUILD_ENGINE_LEVELDB=1 -DUKV_BUILD_ENGINE_ROCKSDB=1 -DUKV_BUILD_API_FLIGHT=0 \
+              .
                 
       - name: Build
         run: make -j4 -C ./build_release
