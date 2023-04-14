@@ -59,6 +59,6 @@ jobs:
       
       - name: Run Tests
         run: for test in $(ls /home/runner/work/ukv/ukv/*test_units*); do
-                echo -e "------ \e[93mRunning $test\e[0m ------"
-                $test
+               echo -e "------ \e[93mRunning $test\e[0m ------";
+               $test;
              done
