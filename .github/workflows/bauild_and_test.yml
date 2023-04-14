@@ -1,0 +1,74 @@
+name: Build_and_test
+
+concurrency:
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: ["310-feature-add-github-actions-to-build-and-test-pull-requests"]
+  pull_request:
+    branches: ["310-feature-add-github-actions-to-build-and-test-pull-requests"]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - run: git checkout main-dev
+
+      - name: Install ubuntu packages
+        run: |
+          sudo apt update -y && \
+          sudo apt install software-properties-common -y && \
+          sudo add-apt-repository ppa:deadsnakes/ppa -y && \
+          sudo apt-get install -y apt-utils 2>&1 | grep -v "debconf: delaying package configuration, since apt-utils is not installed" && \
+          sudo apt-get install -y --no-install-recommends  git libssl-dev build-essential zlib1g zlib1g-dev python3.9 python3-dev  python3-pip python3.9-distutils
+
+
+      - name: Prepare CMake and PyArrow
+        run: |
+          python3.9 -m pip install --upgrade pip setuptools distlib && \
+          python3.9 -m pip install --force-reinstall numpy pyarrow==10.0.0 cmake==3.16.3
+
+      - name: Clean up
+        run: |
+          echo -e "------ \e[93mClean up\e[0m ------" && \
+          rm -rf CMakeCache.txt CMakeFiles wheelhouse Makefile bin tmp/*
+
+      - name: Configure cmake
+        run: |
+          cmake -DCMAKE_BUILD_TYPE=Release -DUKV_BUILD_TESTS=1 -B ./build_release \
+          -DUKV_BUILD_ENGINE_UMEM=1 -DUKV_BUILD_ENGINE_LEVELDB=1 -DUKV_BUILD_ENGINE_ROCKSDB=1 -DUKV_BUILD_API_FLIGHT=0 .
+
+      - name: Build
+        run: |
+          make -j 32 -C ./build_release && \
+          echo -e "------ \e[92mBuild Passing\e[0m ------"
+
+      - name: Upload Binaries
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: ubuntu_binaries
+          path: ./build_release/build/bin/*
+
+  test:
+    runs-on: ubuntu-18.04
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v3.0.1
+        with:
+          name: ubuntu_binaries
+      
+      - name: Run Tests
+        run: for test in $(ls ./build_release/build/bin/*test_units*); do
+                echo -e "------ \e[93mRunning $test\e[0m ------"
+                $test
+             done
