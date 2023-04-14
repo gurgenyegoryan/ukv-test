@@ -5,14 +5,14 @@ concurrency:
 
 on:
   push:
-    branches: ["310-feature-add-github-actions-to-build-and-test-pull-requests"]
+    branches: ["main-dev"]
   pull_request:
-    branches: ["310-feature-add-github-actions-to-build-and-test-pull-requests"]
+    branches: ["main-dev"]
 
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout
@@ -57,7 +57,7 @@ jobs:
           path: ./build_release/build/bin/*
 
   test:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     needs: build
 
     steps:
