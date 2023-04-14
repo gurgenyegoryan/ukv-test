@@ -1,6 +1,7 @@
 name: Build_and_test
 
 concurrency:
+  group: ${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 on:
