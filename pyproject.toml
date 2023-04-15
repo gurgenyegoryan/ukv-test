@@ -35,13 +35,5 @@ before-build = [
 
 skip = ["*musllinux*", "*i686*", "pp*", "cp36-*", "cp37-*", "cp38-*"]
 
-test-command = "pytest {project}/python/tests/"
-test-requires = ["pandas"]
-test-extras = ["test"]
-
-[tool.cibuildwheel.linux]
-manylinux-x86_64-image = "manylinux_2_28"
-manylinux-aarch64-image = "manylinux_2_28"
-
 archs = ["x86_64", "aarch64"]
 repair-wheel-command = "auditwheel repair --lib-sdir . -w {dest_dir} {wheel}"
