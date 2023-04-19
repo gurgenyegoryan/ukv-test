@@ -15,11 +15,11 @@ jobs:
   build:
     runs-on: test-runner
 
-     steps:
-       - name: Checkout
-         uses: actions/checkout@v3
-         with:
-           fetch-depth: 2
+#      steps:
+#        - name: Checkout
+#          uses: actions/checkout@v3
+#          with:
+#            fetch-depth: 2
 
 #       - name: Install ubuntu packages
 #         run: |
