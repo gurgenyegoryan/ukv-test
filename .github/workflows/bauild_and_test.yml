@@ -13,19 +13,21 @@ on:
 
 jobs:
   build:
-    runs-on: test-runner
+    runs-on: 
+      - test-runner
+      - self-hosted
 
-#      steps:
-#        - name: Checkout
-#          uses: actions/checkout@v3
-#          with:
-#            fetch-depth: 2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
 
-#       - name: Install ubuntu packages
-#         run: |
-#           sudo apt-get update -y && \
-#           sudo apt-get install -y apt-utils 2>&1 | grep -v "debconf: delaying package configuration, since apt-utils is not installed" && \
-#           sudo apt-get install -y --no-install-recommends cmake git libssl-dev build-essential zlib1g zlib1g-dev python3 python3-dev
+      - name: Install ubuntu packages
+        run: |
+          sudo apt-get update -y && \
+          sudo apt-get install -y apt-utils 2>&1 | grep -v "debconf: delaying package configuration, since apt-utils is not installed" && \
+          sudo apt-get install -y --no-install-recommends cmake git libssl-dev build-essential zlib1g zlib1g-dev python3 python3-dev
 
       - name: Clean up
         run: |
