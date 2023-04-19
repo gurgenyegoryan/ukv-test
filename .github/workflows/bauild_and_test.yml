@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-    runs-on: ukv-action
+    runs-on: self-hosted
 
     steps:
       - name: Checkout
