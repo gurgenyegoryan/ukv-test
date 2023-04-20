@@ -6,14 +6,16 @@ concurrency:
 
 on:
   push:
-    branches: ["dev"]
+    branches: ["main-dev"]
   pull_request:
-    branches: ["dev"]
+    branches: ["main-dev"]
 
 
 jobs:
-  build_and_test:
-    runs-on: ubuntu-22.04
+  build:
+    runs-on: 
+      - test-runner
+      - self-hosted
     
     steps:
       - name: Checkout
@@ -21,14 +23,9 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Install python packages
-        run: |
-          sudo apt update && \
-          sudo apt install cmake python3-pip libssl-dev -y && \
-          curl -fsSL https://get.docker.com -o get-docker.sh && \
-          sudo sh get-docker.sh && \
-          sudo usermod -aG docker runner && newgrp docker && \
-          pip install cibuildwheel twine && export PATH=$PATH:~/.local/bin
+#       - name: Install python packages
+#         run: |
+#           pip install cibuildwheel twine && export PATH=$PATH:~/.local/bin
           
       - name: Build and Test Python
         run: |
