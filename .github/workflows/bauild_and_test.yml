@@ -14,9 +14,8 @@ on:
 jobs:
   build:
     runs-on: 
-      - label-1
+      - test-runner
       - self-hosted
-      - unum-b2
 
     steps:
       - name: Checkout
