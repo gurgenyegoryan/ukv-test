@@ -14,7 +14,7 @@ on:
 jobs:
   build:
     runs-on: 
-      - test-runner
+      - label-3
       - self-hosted
     
     steps:
