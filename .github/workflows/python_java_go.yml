@@ -23,9 +23,9 @@ jobs:
         with:
           fetch-depth: 2
 
-#       - name: Install python packages
-#         run: |
-#           pip install cibuildwheel twine && export PATH=$PATH:~/.local/bin
+      - name: Install python packages
+        run: |
+          pip install cibuildwheel twine && export PATH=$PATH:~/.local/bin
           
       - name: Build and Test Python
         run: |
