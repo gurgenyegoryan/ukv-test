@@ -30,6 +30,7 @@ jobs:
       - name: Build and Test Python
         run: |
           whoami
+          docker ps -a
           CIBW_BUILD="cp39-*" cibuildwheel --platform linux && \
           CIBW_BUILD="cp310-*" cibuildwheel --platform linux
 
