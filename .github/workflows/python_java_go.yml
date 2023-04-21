@@ -4,17 +4,13 @@ concurrency:
   group: ${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
-on:
-  push:
-    branches: ["main-dev"]
-  pull_request:
-    branches: ["main-dev"]
+on: workflow_dispatch
 
 
 jobs:
   build:
     runs-on: 
-      - label-3
+      - ngn
       - self-hosted
     
     steps:
@@ -22,17 +18,18 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 2
+          ref: main-dev
 
       - name: Install python packages
         run: |
           pip install cibuildwheel twine && export PATH=$PATH:~/.local/bin
           
-      - name: Build and Test Python
-        run: |
-          whoami
-          docker ps -a
-          CIBW_BUILD="cp39-*" cibuildwheel --platform linux && \
-          CIBW_BUILD="cp310-*" cibuildwheel --platform linux
+#       - name: Build and Test Python
+#         run: |
+#           whoami
+#           docker ps -a
+#           CIBW_BUILD="cp39-*" cibuildwheel --platform linux && \
+#           CIBW_BUILD="cp310-*" cibuildwheel --platform linux
 
       - name: Build and Test Java
         run: |
