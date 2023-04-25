@@ -10,7 +10,7 @@ on: workflow_dispatch
 jobs:
   build:
     runs-on: 
-      - ngn
+      - unum-b2
       - self-hosted
 
     steps:
@@ -18,19 +18,17 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 2
-          ref: dev
+          ref: main-dev
 
       - name: Install ubuntu packages
         run: |
           sudo apt-get update -y && \
           sudo apt-get install -y apt-utils 2>&1 | grep -v "debconf: delaying package configuration, since apt-utils is not installed" && \
           sudo apt-get install -y --no-install-recommends cmake git libssl-dev build-essential zlib1g zlib1g-dev python3 python3-dev
-
       - name: Clean up
         run: |
           echo -e "------ \e[93mClean up\e[0m ------" && \
           rm -rf CMakeCache.txt CMakeFiles wheelhouse Makefile bin tmp/*
-
       - name: Configure cmake
         run: cmake -DCMAKE_BUILD_TYPE=Release -DUKV_BUILD_TESTS=1 -B ./build_release -DUKV_BUILD_ENGINE_UMEM=1 -DUKV_BUILD_ENGINE_LEVELDB=1 -DUKV_BUILD_ENGINE_ROCKSDB=1 -DUKV_BUILD_API_FLIGHT=0 .
                 
